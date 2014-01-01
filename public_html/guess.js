@@ -6,6 +6,7 @@
  *      ChangeLog:  -Separated game into different functions
  *                  -Removed a few loops and arrays  
  *                R2-Moved player names and number guesses into objects
+ *                R2-Added if statement to allow only 1-4 players.
  * Purpose:         A simple javascript number guessing game
  */
 
@@ -88,15 +89,23 @@ function PrintNumbers() {
 
 //Start Games
 function NumberGuess() {
-    numberOfPlayers = prompt("How many players? Between 1 - 4")
-    PlayerStat();
-    while (gameExit === "NO") {
-        Dealer();
-        Winner();
-        PrintNumbers();
-        gameExit = GameExit();
-        if (gameExit === "NO") {
-            PlayerNumber();
+    var k = true;
+    while (k) {
+        numberOfPlayers = prompt("How many players? Between 1 - 4");
+        if (numberOfPlayers > 0 && numberOfPlayers <= 4) {
+            k = false;
+            PlayerStat();
+            while (gameExit === "NO") {
+                Dealer();
+                Winner();
+                PrintNumbers();
+                gameExit = GameExit();
+                if (gameExit === "NO") {
+                    PlayerNumber();
+                }
+            }
+        } else {
+            alert("Invalid entry, Try again!");
         }
     }
 }
