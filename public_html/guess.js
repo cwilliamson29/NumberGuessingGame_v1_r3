@@ -7,18 +7,22 @@
  *                  -Removed a few loops and arrays  
  *                R2-Moved player names and number guesses into objects
  *                R2-Added if statement to allow only 1-4 players.
+ *                R3-Fixed a bug where the game would not allow any player to win
+ *                R3-Added a feature to keep score of all the wins
  * Purpose:         A simple javascript number guessing game
  */
 
 var gameExit = "NO";
+var win;
 
 // Define Players array and class
-var dealer;
+var dealer, dealerScore = 0;
 var numberOfPlayers;
 var players = ["player1", "player2", "player3", "player4"];
 function Player(name, guess) {
     this.name = name;
     this.guess = guess;
+    this.score = 0;
 }
 
 // Dealer number
@@ -45,17 +49,20 @@ function PlayerNumber() {
 
 // Winner Function
 function Winner() {
-    var win = false;
+    win = false;
     for (var i = 0; i < numberOfPlayers; i++) {
-        if (players[i].guess === dealer) {
-            win = true;
-            document.writeln(players[i].name + " won!" + "<br>");
-        }
+        if (players[i].guess == dealer) {   // Using == instead of === due to the prompt making
+            win = true;                     // the players number guess a string instead of a integer
+            document.writeln("<br>" + players[i].name + " won!" + "<br>");
+            players[i].score++;
+        } 
     }
     if (win === false) {
-        document.writeln("Dealer has won!" + "<br>");
+        document.writeln("<br>Dealer has won!" + "<br>");
+        dealerScore++;
     }
 }
+
 
 // Game Exit function
 function GameExit() {
@@ -81,9 +88,9 @@ function GameExit() {
 
 // Print function for the player and dealer numbers
 function PrintNumbers() {
-    document.writeln("<br>Dealer : " + dealer + "<br>");
+    document.writeln("<br>Dealer : " + dealer + " - Score: " + dealerScore + "<br>");
     for (var i = 0; i < numberOfPlayers; i++) {
-        document.writeln(players[i].name + " " + ": " + players[i].guess + "<br>");
+        document.writeln(players[i].name + " " + ": " + players[i].guess + " - Score: " + players[i].score + "<br>");
     }
 }
 
